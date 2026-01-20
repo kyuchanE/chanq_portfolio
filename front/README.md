@@ -1,36 +1,23 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## Architecture Mapping
 
-## Getting Started
+If you prefer a 3-layer Clean Architecture model (Presentation / Domain / Data), use this mapping:
 
-First, run the development server:
+- Presentation -> app/, src/presentation/
+- Domain -> src/domain/
+- Data -> src/application/ (ports/use cases) + src/infrastructure/ (implementations)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Domain vs DTO
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- Domain is the internal source of truth and should stay pure and stable.
+- Use cases should return Domain entities and operate on Domain types.
+- DTOs are for boundaries only (BFF HTTP responses, external API contracts).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## BFF Design Rules
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Clients call only `app/api/*` routes; never call external REST APIs directly.
+- Route handlers validate input, call use cases, then map Domain -> DTO for HTTP responses.
+- External REST responses are mapped to Domain entities in Infrastructure (adapters).
+- Keep external API contracts isolated (e.g., `Remote*Response` types).
+- Normalize errors at the BFF boundary (status codes + message shape).
+- Do not return Domain entities directly from BFF responses.
+- Keep DTO usage at the boundaries; avoid DTOs in core Domain logic.
