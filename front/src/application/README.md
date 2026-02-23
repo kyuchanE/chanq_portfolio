@@ -9,7 +9,7 @@
 - No framework dependencies (Next.js, React, Axios, etc.).
 - No direct I/O: use ports for external access.
 - Use cases operate on and return Domain entities.
-- Use DTOs only at boundaries (BFF HTTP responses, external API contracts).
+- Use DTOs only at boundaries (presentation boundary models, external API contracts).
 
 ## Typical Contents
 - Use cases

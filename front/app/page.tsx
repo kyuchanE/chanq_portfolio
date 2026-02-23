@@ -1,18 +1,14 @@
-import { LiquidGlassModal } from "@/src/presentation/components/home/LiquidGlassModal";
-import background from "../public/images/bg_test.jpg";
-import Image from "next/image";
+import { HomeInfo } from "@/src/presentation/components/home/HomeInfo";
+import { Topbar } from "@/src/presentation/components/Topbar";
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen min-w-screen items-center justify-center bg-white font-sans">
+    <main className="flex flex-col min-h-screen min-w-screen bg-black font-sans">
 
-      <main className="relative min-h-screen w-full ">
-        {/* Background */}
-        <Image src={background} alt="background" className="min-w-full min-h-full" />
-        {/* Liquid View */}
-        <LiquidGlassModal open={true} />
-      </main>
+      <Topbar className="h-[50px] w-full" />
 
-    </div>
+      <HomeInfo className="w-full" />
+
+    </main>
   );
 }

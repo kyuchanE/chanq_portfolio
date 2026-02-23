@@ -10,14 +10,15 @@ If you prefer a 3-layer Clean Architecture model (Presentation / Domain / Data),
 
 - Domain is the internal source of truth and should stay pure and stable.
 - Use cases should return Domain entities and operate on Domain types.
-- DTOs are for boundaries only (BFF HTTP responses, external API contracts).
+- DTOs are for boundaries only (UI boundary models, external API contracts).
 
-## BFF Design Rules
+## Next.js Direct DB Rules
 
-- Clients call only `app/api/*` routes; never call external REST APIs directly.
-- Route handlers validate input, call use cases, then map Domain -> DTO for HTTP responses.
-- External REST responses are mapped to Domain entities in Infrastructure (adapters).
-- Keep external API contracts isolated (e.g., `Remote*Response` types).
-- Normalize errors at the BFF boundary (status codes + message shape).
-- Do not return Domain entities directly from BFF responses.
+- Never access the DB from Client Components.
+- Query/update the DB only in Next.js server runtime code (Server Components, Server Actions, or Route Handlers when needed).
+- Server runtime entry points validate input, call use cases, and map Domain -> boundary models.
+- DB results are mapped to Domain entities in Infrastructure (repositories/adapters).
+- Keep DB access logic isolated (repository/query types).
+- Normalize errors at server boundaries (UI error state or HTTP response shape).
+- Do not return Domain entities directly to client-facing boundaries.
 - Keep DTO usage at the boundaries; avoid DTOs in core Domain logic.
