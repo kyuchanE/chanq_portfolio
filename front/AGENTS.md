@@ -50,6 +50,14 @@
 - Keep UI components presentational; move logic to hooks/use cases.
 - Prefer typed DTOs between layers.
 
+## Dependency Injection (DI) Rules
+- Do not instantiate infrastructure implementations directly in UI components/pages when avoidable.
+- Keep object wiring in a dedicated composition area (for example, `src/infrastructure/di/*` factory modules).
+- Presentation layer should depend on application abstractions/use cases, not concrete repository classes.
+- Infrastructure classes may be created in composition factories and injected into use cases through constructor parameters.
+- If a server entry point (Server Component / Server Action / Route Handler) needs a use case, call a DI factory function instead of composing dependencies inline.
+- Prefer constructor injection for use cases and services.
+
 ## Testing (if added later)
 - Unit test domain and application layers without Next.js dependencies.
 - Integration test server runtime entry points (Server Actions / Route Handlers / Server Component loaders) with mocked DB repositories.

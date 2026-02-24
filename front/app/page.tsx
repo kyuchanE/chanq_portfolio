@@ -1,4 +1,5 @@
 import { HomeInfo } from "@/src/presentation/components/home/HomeInfo";
+import { ProjectListServer } from "@/src/presentation/components/home/ProjectListServer";
 import { Topbar } from "@/src/presentation/components/Topbar";
 
 export default function Home() {
@@ -8,6 +9,8 @@ export default function Home() {
       <Topbar className="h-[50px] w-full" />
 
       <HomeInfo className="w-full" />
+
+      <ProjectListServer />
 
     </main>
   );
